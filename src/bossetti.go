@@ -41,11 +41,11 @@ func GetAnalysisAttributes(object *vt.Object, client *vt.Client)([2]int, int, er
 }
 
 func send_notification(title string, text string, url string){
-    notification := toast.Notification{
-        AppID: "Bossetti", 
-        Title: title,
-        Message: text,
-    }
+	notification := toast.Notification{
+        	AppID: "Bossetti", 
+        	Title: title,
+        	Message: text,
+    	}
 	if url != "" {
 		notification.Actions = []toast.Action{
 			{"protocol", "See analysis", "https://www.virustotal.com/gui/file-analysis/"+url},
