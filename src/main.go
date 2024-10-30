@@ -4,41 +4,24 @@ import (
 	"os"
 	"fmt"
 	"log"
-	"time"
-	"encoding/json"
 	vt "github.com/VirusTotal/vt-go"
 )
 
-const APIKEY = "YOUR_VT_APIKEY"
-
 func main() {
 	if len(os.Args)<2{ log.Fatal("Must specify a file") }
+	client := vt.NewClient(APIKEY)
 	for i:=1; i<len(os.Args); i++ {
 		filepath := os.Args[i]
-		client := vt.NewClient(APIKEY)
-		file, err := os.Open(filepath)
-		if err != nil { log.Fatal("Invalid filepath.") }
-		defer file.Close()
-		object, err := client.NewFileScanner().ScanFile(file, nil)
+		send_notification("Uploading", filepath, "")
+		object, err := UploadFile(filepath, client)
 		if err != nil { log.Fatalf("Error: %v", err) }
-		fmt.Printf("\n\"%s\" successfully uploaded to the following URL:\nhttps://www.virustotal.com/gui/file-analysis/%s\n", filepath, object.ID())
-		var harmless, suspicious, malicious, undetected float64
-		var ntotalav int
-		for {
-			var result map[string]interface{}
-			url := vt.URL("analyses/%s", object.ID())
-			_, err = client.GetData(url, &result)
-			if err != nil { log.Fatalf("Error: %v", err) }
-			attributes := result["attributes"].(map[string]interface{})["stats"].(map[string]interface{})
-			harmless, _ = attributes["harmless"].(json.Number).Float64()
-			suspicious, _ = attributes["suspicious"].(json.Number).Float64()
-			malicious, _ = attributes["malicious"].(json.Number).Float64()
-			undetected, _ = attributes["undetected"].(json.Number).Float64()
-			ntotalav = int(malicious)+int(undetected)
-			if ntotalav != 0 { break }
-			fmt.Print(".")
-			time.Sleep(1*time.Second) 
+		send_notification("Scanning", "Wait a bit", object.ID())
+		stats, n, err := GetAnalysisAttributes(object, client)
+		if err != nil { log.Fatalf("Error: %v", err) }
+		if stats[0]+stats[1] == 0 {
+			send_notification("File is secure!", "", object.ID())
+		} else {
+			send_notification("Done", fmt.Sprintf("Flagged as Malicios (%d), Suspicious (%d)\nby %d antiviruses", stats[1], stats[0], n), object.ID())
 		}
-		fmt.Printf("\nOn %d antiviruses file was flagged as:\n  Harmless (%d)\n  Suspicious (%d)\n  Malicious (%d)\n\n", ntotalav, int(harmless), int(suspicious), int(malicious))
 	}
 }
