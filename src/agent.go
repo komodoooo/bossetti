@@ -11,14 +11,14 @@ import (
 func main() {
 	client := vt.NewClient(APIKEY)
 	watcher, err := fsnotify.NewWatcher()
-    if err != nil { log.Fatal(err) }
-    defer watcher.Close()
+    	if err != nil { log.Fatal(err) }
+    	defer watcher.Close()
 	err = watcher.Add(os.Getenv("USERPROFILE")+"\\Downloads")
-    if err != nil { log.Fatal(err) }
-	for {
-        select {
-        case event := <-watcher.Events:
-            if event.Op&fsnotify.Create == fsnotify.Create {
+    	if err != nil { log.Fatal(err) }
+		for {
+        	select {
+        	case event := <-watcher.Events:
+            		if event.Op&fsnotify.Create == fsnotify.Create {
 				send_notification("Uploading", event.Name, "")
 				obj, err := UploadFile(event.Name, client)
 				send_notification("Scanning", "Wait a bit", obj.ID())
@@ -30,9 +30,9 @@ func main() {
 				} else {
 					send_notification("File could be dangerous", fmt.Sprintf("Flagged as Malicios (%d), Suspicious (%d)\nby %d antiviruses", stats[1], stats[0], n), obj.ID())
 				}
-            }
-        case err := <-watcher.Errors:
-            log.Println("Error: ", err)
-        }
-    }
+            		}
+        	case err := <-watcher.Errors:
+            		log.Println("Error: ", err)
+        	}
+    	}
 }
