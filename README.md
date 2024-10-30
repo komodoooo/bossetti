@@ -4,7 +4,7 @@
 Better than any antivirus because it's not bloated.
 
 ### Installation
-```
+```sh
 git clone https://github.com/komodoooo/bossetti
 cd bossetti/src
 make      # make sure to edit bossetti.go file with your apikey inside the constant
@@ -14,7 +14,7 @@ make clean
 ### Usage
 Everytime you will turn on your PC and do something, Bossetti will monitor your download directory, scanning new downloaded files with virustotal and notifing you the details, protecting you from possible threats.
 
-Why Bossetti is doing this? Because he was accused of false crimes... after realizing how corrupt the world around him is, he now he want the best for you!
+Why Bossetti is doing this? Because he was accused of false crimes... after realizing how corrupt the world around him is, he now wants the best for you!
 
 # MASSIMO BOSSETTI IS CURRENTLY IN JAIL
 FREE HIM!
