@@ -14,6 +14,8 @@ make clean
 ### Usage
 Everytime you will turn on your PC and do something, Bossetti will monitor your download directory, scanning new downloaded files with virustotal and notifing you the details, protecting you from possible threats.
 
+Also, you can start a scan manually via the contextual menu "Scan with bossetti"
+
 Why Bossetti is doing this? Because he was accused of false crimes... after realizing how corrupt the world around him is, he now wants the best for you!
 
 # MASSIMO BOSSETTI IS CURRENTLY IN JAIL
