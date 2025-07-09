@@ -10,10 +10,17 @@ func main() {
 	client := vt.NewClient(APIKEY)
 	filepath := os.Args[1]
 	send_notification("Uploading", filepath, "")
-	object, _ := UploadFile(filepath, client)
-	send_notification("Scanning", "Wait a bit", object.ID())
+	object, err := UploadFile(filepath, client)
+	if err != nil { 
+		send_notification("Error", err.Error(), object.ID())
+		return
+	}
+	send_notification("Scanning", filepath, object.ID())
 	stats, n, err := GetAnalysisAttributes(object, client)
-	if err != nil { send_notification("Error", err.Error(), object.ID())}
+	if err != nil { 
+		send_notification("Error", err.Error(), object.ID())
+		return
+	}
 	if stats[0]+stats[1] == 0 {
 		send_notification("File is secure!", "", object.ID())
 	} else {
