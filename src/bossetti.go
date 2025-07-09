@@ -9,7 +9,8 @@ import (
 	vt "github.com/VirusTotal/vt-go"
 )
 
-var APIKEY = "YOUR_VT_APIKEY"
+var APIKEY string
+var FILE_EXTENSIONS = []string{"exe", "com", "bat", "cmd", "ps1", "vbs", "msi", "wsf", "zip", "rar", "7z"}
 
 func UploadFile(filepath string, client *vt.Client)(*vt.Object, error){
 	file, err := os.Open(filepath)
