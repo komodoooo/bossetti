@@ -20,5 +20,6 @@ As it hints, Bossetti will run automatically every time you will turn on your PC
 ### Usage
 * You can scan a single file with _**Right-click > "Scan with Bossetti"**_
 * Bossetti will monitor and scan for new files in your `%USERPROFILE%\Downloads` directory, notifying you with details and a link to the web dashboard for additional data.
+> The file extensions allowed to be uploaded during directory monitoring are listed [here](src/bossetti.go), feel free to change them before compiling
 
 [**#FREEBOSSETTI**](https://it.wikipedia.org/wiki/Omicidio_di_Yara_Gambirasio)
